@@ -18,115 +18,111 @@ var data = "Pellentesque ex eros, +380665433321 porttitor eu bibendum ac, aliqua
 
 */
 
-function myFunction() {
-
-    var patt1 = /[(]{1}[0]{1}[0-9]{2}[)]{1}[ ]{1}[0-9]{3}[ ]{1}[0-9]{2}[ ]{1}[0-9]{2} | [+]{1}[3]{1}[8]{1}[0]{1}[0-9]{9} | [(]{1}[0]{1}[0-9]{2}[)]{1}[0-9]{3}[-]{1}[0-9]{2}[-]{1}[0-9]{2} | [0]{1}[0-9]{2}[-]{1}[0-9]{3}[-]{1}[0-9]{2}[-]{1}[0-9]{2} | [(){1}][0]{1}[0-9]{3}[)]{1}[ ]{1}[0-9]{2}[-]{1}[0-9]{2}[-]{1}[0-9]{2} | [(){1}][0]{1}[0-9]{2}[)]{1}[ ]{1}[0-9]{7} | [+]{1}[0-9]{2}[-]{1}[0-9]{3}[-]{1}[0-9]{7}/gmi;
-
-    var patt2 = /[0-9]{4}[ ]{1}[0-9]{4}[ ]{1}[0-9]{4}[ ]{1}[0-9]{4} | [0-9]{16}/gmi;
-    var result = data.match(patt1);
-    var card = data.match(patt2);
-
-    document.getElementById("demo").innerHTML = result;
-    document.getElementById("demo1").innerHTML = card;
-
-    console.log(result, data);
-
-    var total_cardTrue = [];
-    var total_cardWrong = [];
-    var numbers = [];
-
-    console.log(card)
-    for (var i = 0; i < card.length; i++) {
-        var y = card[i].replace(/ |-/g, "");
-        var z = card[i].replace(/(\d)(?=(\d\d\d\d)+([^\d]|$))/g, '$1 ');
-        var x = card[i].split("", 16);
-        console.log(card[i]);
-
-        function PersonCard(one, two, three, four, start, clean, last) {
-            this.dg1 = one;
-            this.dg2 = two;
-            this.dg3 = three;
-            this.dg4 = four;
-            this.CardStart = start;
-            this.CardClean = clean;
-            this.CardLast = last;
-            this.totalInfoTrue = function () {
-                return this.CardLast
-            };
-            this.totalInfoFalse = function () {
-                return "card: " + this.CardStart + ", accepted: false";
-            };
-        }
 
 
-        var myCard = new PersonCard([x[0]], [x[1]], [x[2]], [x[3]], y, x, z)
-        console.log(myCard)
-        var isCorrect
-        console.log(PersonCard)
-        PersonCard.prototype.isCorrect = function () {
-            var sum = 0;
-            for (var i = this.CardClean.length - 1; i >= 0; i--) {
-                var dg = +this.CardClean[i];
-                if (i % 2 == 0) {
-                    dg *= 2;
-                    dg = dg > 9 ? dg - 9 : dg
-                }
-                sum += dg;
-            }
-            return (sum % 10 == 0) ? "true" : "false";
-        }
+var patt1 = /[(]{1}[0]{1}[0-9]{2}[)]{1}[ ]{1}[0-9]{3}[ ]{1}[0-9]{2}[ ]{1}[0-9]{2} | [+]{1}[3]{1}[8]{1}[0]{1}[0-9]{9} | [(]{1}[0]{1}[0-9]{2}[)]{1}[0-9]{3}[-]{1}[0-9]{2}[-]{1}[0-9]{2} | [0]{1}[0-9]{2}[-]{1}[0-9]{3}[-]{1}[0-9]{2}[-]{1}[0-9]{2} | [(){1}][0]{1}[0-9]{3}[)]{1}[ ]{1}[0-9]{2}[-]{1}[0-9]{2}[-]{1}[0-9]{2} | [(){1}][0]{1}[0-9]{2}[)]{1}[ ]{1}[0-9]{7} | [+]{1}[0-9]{2}[-]{1}[0-9]{3}[-]{1}[0-9]{7}/gmi;
 
-        PersonCard.prototype.paymentSystem = function () {
-            if (+this.dg1 == 4) {
-                return "VISA"
-            } else if (2220 < +("this.dg1" + "this.dg2" + "this.dg3" + "this.dg4") < 2721) {
-                return "MasterCard"
-            } else if (+(this.dg1 + this.dg2) == 50) {
-                return "Maestro"
-            } else if (50 < +(this.dg1 + this.dg2) && +(this.dg1 + this.dg2) < 56) {
-                return "MasterCard"
-            } else if (55 < +(this.dg1 + this.dg2) && +(this.dg1 + this.dg2) < 70) {
-                return "Maestro"
-            } else {
-                return ""
-            }
-        }
-        PersonCard.prototype.accepted = function () {
+var patt2 = /[0-9]{4}[ ]{1}[0-9]{4}[ ]{1}[0-9]{4}[ ]{1}[0-9]{4} | [0-9]{16}/gmi;
+var result = data.match(patt1);
+var card = data.match(patt2);
 
-            if ((this.isCorrect() == "true") && (this.paymentSystem() == "Maestro" || "VISA" || "MasterCard")) {
-                console.log(this.totalInfoTrue());
+console.log(result, card);
 
-                var k = total_cardTrue.push([this.totalInfoTrue()]);
-                return;
+var total_cardTrue = [];
+var total_cardWrong = [];
+var numbers = [];
 
-            } else if (this.isCorrect() == "false") {
-                console.log(this.totalInfoFalse());
+console.log(card)
+for (var i = 0; i < card.length; i++) {
+    var y = card[i].replace(/ |-/g, "");
+    var z = card[i].replace(/(\d)(?=(\d\d\d\d)+([^\d]|$))/g, '$1 ');
+    var x = card[i].split("", 16);
+    console.log(card[i]);
 
-                var k1 = total_cardWrong.push([this.totalInfoTrue()]);
-                return;
-
-            }
-
-        }
-
-        console.log(myCard.accepted());
-        console.log(total_cardTrue);
+    function PersonCard(one, two, three, four, start, clean, last) {
+        this.dg1 = one;
+        this.dg2 = two;
+        this.dg3 = three;
+        this.dg4 = four;
+        this.CardStart = start;
+        this.CardClean = clean;
+        this.CardLast = last;
+        this.totalInfoTrue = function () {
+            return this.CardLast
+        };
+        this.totalInfoFalse = function () {
+            return "card: " + this.CardStart + ", accepted: false";
+        };
     }
-    document.getElementById("demo2").innerHTML = total_cardTrue;
 
 
-    for (var i = 0; i < total_cardTrue.length; i++) {
+    var myCard = new PersonCard([x[0]], [x[1]], [x[2]], [x[3]], y, x, z)
+    console.log(myCard)
+    var isCorrect
+    console.log(PersonCard)
+    PersonCard.prototype.isCorrect = function () {
+        var sum = 0;
+        for (var i = this.CardClean.length - 1; i >= 0; i--) {
+            var dg = +this.CardClean[i];
+            if (i % 2 == 0) {
+                dg *= 2;
+                dg = dg > 9 ? dg - 9 : dg
+            }
+            sum += dg;
+        }
+        return (sum % 10 == 0) ? "true" : "false";
+    }
 
-        var tag = ` ${total_cardTrue[i]}<br>`;
-        document.getElementById("results").insertAdjacentHTML("beforebegin", `${tag}`);
+    PersonCard.prototype.paymentSystem = function () {
+        if (+this.dg1 == 4) {
+            return "VISA"
+        } else if (2220 < +("this.dg1" + "this.dg2" + "this.dg3" + "this.dg4") < 2721) {
+            return "MasterCard"
+        } else if (+(this.dg1 + this.dg2) == 50) {
+            return "Maestro"
+        } else if (50 < +(this.dg1 + this.dg2) && +(this.dg1 + this.dg2) < 56) {
+            return "MasterCard"
+        } else if (55 < +(this.dg1 + this.dg2) && +(this.dg1 + this.dg2) < 70) {
+            return "Maestro"
+        } else {
+            return ""
+        }
+    }
+    PersonCard.prototype.accepted = function () {
+
+        if ((this.isCorrect() == "true") && (this.paymentSystem() == "Maestro" || "VISA" || "MasterCard")) {
+            console.log(this.totalInfoTrue());
+
+            var k = total_cardTrue.push([this.totalInfoTrue()]);
+            return;
+
+        } else if (this.isCorrect() == "false") {
+            console.log(this.totalInfoFalse());
+
+            var k1 = total_cardWrong.push([this.totalInfoTrue()]);
+            return;
+
+        }
 
     }
-    for (var i = 0; i < result.length; i++) {
-        var j = result[i].replace(/ |-|[(]|[)]/g, "");
-        j = j.replace(/^0/, "+380");
 
-        document.getElementById("numbers").insertAdjacentHTML("beforebegin", `${j} <br>`);
+    console.log(myCard.accepted());
+    console.log(total_cardTrue);
+}
 
-        console.log(j);
-    }
+
+
+for (var i = 0; i < total_cardTrue.length; i++) {
+
+    var tag = ` ${total_cardTrue[i]}<br>`;
+    document.getElementById("results").insertAdjacentHTML("beforebegin", `${tag}`);
+
+}
+for (var i = 0; i < result.length; i++) {
+    var j = result[i].replace(/ |-|[(]|[)]/g, "");
+    j = j.replace(/^0/, "+380");
+
+    document.getElementById("numbers").insertAdjacentHTML("beforebegin", `${j} <br>`);
+
+    console.log(j);
 }
