@@ -22,9 +22,13 @@ var data = "Pellentesque ex eros, +380665433321 porttitor eu bibendum ac, aliqua
 
 var patt1 = /[(]{1}[0]{1}[0-9]{2}[)]{1}[ ]{1}[0-9]{3}[ ]{1}[0-9]{2}[ ]{1}[0-9]{2} | [+]{1}[3]{1}[8]{1}[0]{1}[0-9]{9} | [(]{1}[0]{1}[0-9]{2}[)]{1}[0-9]{3}[-]{1}[0-9]{2}[-]{1}[0-9]{2} | [0]{1}[0-9]{2}[-]{1}[0-9]{3}[-]{1}[0-9]{2}[-]{1}[0-9]{2} | [(){1}][0]{1}[0-9]{3}[)]{1}[ ]{1}[0-9]{2}[-]{1}[0-9]{2}[-]{1}[0-9]{2} | [(){1}][0]{1}[0-9]{2}[)]{1}[ ]{1}[0-9]{7} | [+]{1}[0-9]{2}[-]{1}[0-9]{3}[-]{1}[0-9]{7}/gmi;
 
+
+console.log(data)
+var x, y, z;
 var patt2 = /[0-9]{4}[ ]{1}[0-9]{4}[ ]{1}[0-9]{4}[ ]{1}[0-9]{4} | [0-9]{16}/gmi;
 var result = data.match(patt1);
 var card = data.match(patt2);
+
 
 console.log(result, card);
 
@@ -32,11 +36,20 @@ var total_cardTrue = [];
 var total_cardWrong = [];
 var numbers = [];
 
-console.log(card)
 for (var i = 0; i < card.length; i++) {
-    var y = card[i].replace(/ |-/g, "");
-    var z = card[i].replace(/(\d)(?=(\d\d\d\d)+([^\d]|$))/g, '$1 ');
-    var x = card[i].split("", 16);
+    card[i] = card[i].replace(/-| /g, "");
+}
+
+console.log(card)
+
+
+for (var i = 0; i < card.length; i++) {
+
+
+    x = card[i].split("", 16);
+    y = card[i].replace(/ |-/g, "");
+    z = card[i].replace(/(\d)(?=(\d\d\d\d)+([^\d]|$))/g, '$1 ');
+
     console.log(card[i]);
 
     function PersonCard(one, two, three, four, start, clean, last) {
